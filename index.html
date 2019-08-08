@@ -1,13 +1,64 @@
 <!DOCTYPE html> 
 <head>
-
+<meta charset="utf-8">
 </head>
 
 <html>
-	<body>
+	<body marginwidth="0" marginheight="0">
 		<h1> Izzi Sibbers</h1>
 		<p>  sentence </p>
 
+		<script src="d3.min.js"></script>
+<div class ="container">
+  <svg id="d3banner" width ="1000" height="100000"></svg>
+<script>
+//ported from https://bl.ocks.org/mbostock/3231298
+  var width = document.getElementsByClassName("container")[0].offsetWidth;
+  var height = width > 500 ? 600 : 1000;
 
-	</body>
+  var nodes = d3.range(200).map(() => ({radius:  Math.random() * 10 + 4 } )),
+     // image = "leaf.png",
+      root = nodes[0],
+      color = d3.scaleOrdinal(d3.schemeGreens[3]);
+
+  root.radius = 0;
+  root.fixed = true;
+
+  const svg = d3.select("#d3banner")
+      .attr("width", width)
+      .attr("height", height);
+
+  const simulation = d3.forceSimulation(nodes)
+      .force('charge', d3.forceManyBody().strength((d, i) => i ? 0 : -2000))
+      .force('x', d3.forceX(width / 2).strength(0.05))
+      .force('y', d3.forceY(height / 2).strength(0.05))
+      .force('collision', d3.forceCollide().radius(function (d) {return d.radius + 2;}).iterations([5]))
+      .on('tick', ticked);
+
+ svg.selectAll("circle")
+      .data(nodes.slice(1))
+      .enter().append("circle")
+      .attr("r", d => d.radius)
+      .attr("opacity", 0.7)
+      .style("fill", (d, i) => color(i % 3));
+
+
+  svg.on("mousemove", function() {
+      var p1 = d3.mouse(this);
+      root.fx = p1[0];
+      root.fy = p1[1];
+      simulation
+          .alphaTarget(0.3)
+          .restart();
+    });
+
+  function ticked() {
+      svg.selectAll("circle")
+          .attr("cx", d => d.x)
+          .attr("cy", d => d.y);
+  }
+
+</script>
+</div>
+</body>
 </html>
