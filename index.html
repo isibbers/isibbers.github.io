@@ -1,12 +1,12 @@
 <!DOCTYPE html> <head>
 <meta charset="utf-8">
+<link href=style.css rel='stylesheet' type='text/css'/>
 </head>
 
 <html>
 	<body marginwidth=".5" marginheight=".5">
-		<h1> Izzi Sibbers</h1>
-		<p>  sentence </p>
-
+		<h1> Hi Meena </h1>
+    <h2> I love you puppy </h2>
 		<script src="https://d3js.org/d3.v5.min.js"></script>
 <div class ="container">
   <svg id="d3banner" width ="1000" height="100000"></svg>
@@ -18,7 +18,7 @@
   var nodes = d3.range(200).map(() => ({radius:  Math.random() * 10 + 4 } )),
      // image = "leaf.png",
       root = nodes[0],
-      color = d3.scaleOrdinal(d3.schemeGreens[3]);
+      color = d3.scaleOrdinal(d3.schemeReds[9]);
 
   root.radius = 0;
   root.fixed = true;
