@@ -160,6 +160,7 @@
 .icon-heart,
 .icon-info,
 .icon-key,
+.icon-leaf,
 .icon-link,
 .icon-lock,
 .icon-lock-open,
@@ -335,7 +336,7 @@
 .icon-screen-desktop:before {
   content: "\e011";
 }
-.icon-plane:before {
+.icon-leaf:before {
   content: "\e012";
 }
 .icon-notebook:before {
