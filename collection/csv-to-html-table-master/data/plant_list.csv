@@ -1,5 +1,5 @@
 NO.,Species Name,Family,common name,country / region of origin,multiples?,room,sub collection,notes
-91,Espostoa lanata,Cactaceae,Peruvian old man,"Peru, Equador",2,515,Fiber,
+91,Espostoa lanata,Test,Peruvian old man,"Peru, Equador",2,515,Fiber,
 93,Ferocactus emoryi ,Cactaceae,Traveler's Friend,"Southern Arizona, Mexico",1,515,"Culinary, Ethnobotanical, Medicinal",
 129,Mammillaria plumosa,Cactaceae,Feather cactus,Northeastern Mexico,1,515,,
 148,Marginatocereus marginatus,Cactaceae,Fence Post Cactus,Central Mexico,1,515,,
@@ -85,7 +85,7 @@ NO.,Species Name,Family,common name,country / region of origin,multiples?,room,s
 204a,"Columnea gigantea (may be Dalbergaria gigantea, or C. Gigantifolia)",Gesneriaceae,,Tropical Americas,1,513,,
 223a,Nematanthus wettsteinii,Gesneriaceae,Goldfish plant,Tropical Americas,2,"511, 513",,
 393a,Streptocarpus 'Cobalt Nymph',Gesneriaceae,Cape primrose,,3,513,Cultivar,"1968 Collective name for artifically induced mutants of 'Constant Nymph' produced at Inst. for Atomic Science in Agric. Wageningen, Netherlands, 1968, by Broertjes using x-radiation on leaves with or without colchicine. The named clones are 'Blue Nymph', 'Cobalt Nymph', 'Mini Nymph' 'Netta Nymph', and 'Purple Nymph'. (AGGS register). Originallly mutated from Streptocarpus ’Merton Blue’ 
-x Streptocarpus Johannis. "
+x Streptocarpus Johannis."
 234,Ginkgo biloba,Ginkgoaceae,Maidenhair Tree,China,1,511,gymnosperm,
 201a,Gnetum gnemon ( female),Gnetaceae,,"Southeast Asia, Western Pacific Islands",1,513,gymnosperm,
 201b,Gnetum gnemon ( male ?) ,Gnetaceae,,"Southeast Asia, Western Pacific Islands",2,511,gymnosperm,
