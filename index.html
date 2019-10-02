@@ -45,7 +45,10 @@
  	 <input type="radio" name="color" value="lightgreen">  light green
 	</form>
 		<input type="button" name="ByRoom" value="room" onclick="roomforce()">
+    <input type="button" name="Medicinal" value="medicinal" onclick="growMed()">
+    <input type="button" name="noMed" value="All plants" onclick="noMed()">
     <input type="button" name="randomlayout" value="random" onclick="start()">
+
 	</form>
 </div>
 <br>
@@ -53,7 +56,7 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 //variables that need to be used by all the functions 
-var   w = window.innerWidth/1.2 +30,
+var   w = window.innerWidth,
       h = window.innerHeight/4+25,
       margin = { top: 40, right: 20, bottom: 20, left: 40 },
       radius = 5;    
@@ -62,12 +65,15 @@ var   w = window.innerWidth/1.2 +30,
       .attr("width", w)
       .attr("height", h)
 
+ var buttons = d3.selectAll('input');
+  
+ var medPress = false;
 //********************************************************************************
-//random layout applied when page loads
+//random layout applied when page loads and when u hit the reset button
 //********************************************************************************
 function start(){
-  d3.csv("plant_list.csv").then(function(data){
-  	
+  d3.csv("plant_list1.csv").then(function(data){
+
     d3.selectAll("text")
           .remove();
 
@@ -75,8 +81,7 @@ function start(){
           .enter()
           .remove();
 
-    var buttons = d3.selectAll('input');
-    buttons.on('change', function(d){
+     buttons.on('change', function(d){
         var circles = svgContainer.selectAll("circle").data(data)
         .attr("fill", this.value)
       })
@@ -105,7 +110,8 @@ function start(){
         .duration(70)
         .attr("cx", function(d){return d.x})
         .attr("cy", function(d){return d.y})
-      
+        
+
         
      circles.exit().remove();
 
@@ -122,52 +128,12 @@ function start(){
         .duration(50)
         .style("opacity", 1)
 
-      div.html(d["Species Name"] + d["room"])
+      div.html(d["Species Name"] + " "+ d["room"] )
         .attr("x", 800 )
         .attr("y", 500 )
     };
 
-    function handleMouseOut(d,i){
-       d3.select(this)
-        .transition()
-        .style("fill", buttons.value)
-        .attr("r", radius)
-        
-      div.transition()
-       .duration('50')
-       .style("opacity", 0);
-    };
-
-    function clickedMouseOut(){
-      d3.select(this)
-        .transition()
-        .style("fill", "purple")
-        .attr("r", radius)
-        
-      div.transition()
-       .duration('50')
-       .style("opacity", 0);
-    }
-
-
-    function doubleclick(){
-      
-      d3.select(this)
-          .style("fill", "purple")
-          .on("mouseout", clickedMouseOut)
-     }
-    
-    function click(){
-
-      d3.select(this)
-        .style("fill", buttons.value)
-        .on("mouseout", handleMouseOut)
-      
-    }
-
-
-
-    })
+  })
 
 }
 //***********************************************************************************
@@ -175,9 +141,9 @@ function start(){
 //***********************************************************************************
 
 function roomforce(){
-  d3.csv("plant_list.csv").then(function(data){
+  d3.csv("plant_list1.csv").then(function(data){
  
-    var buttons = d3.selectAll('input');
+    //var buttons = d3.selectAll('input');
       buttons.on('change', function(d){
         var circles = svgContainer.selectAll("circle").data(data)
         .attr("fill", this.value)
@@ -207,7 +173,7 @@ function roomforce(){
         return roomX(d)
       }))
       .force('yAxis', d3.forceY(h/3))
-      .force('collision', d3.forceCollide().radius(radius+1.5).iterations([5]))
+      .force('collision', d3.forceCollide().radius(radius+3).iterations([5]))
      // .force('center', d3.forceCenter(w/2, h/2))
       .on('tick', ticked)
       
@@ -235,12 +201,21 @@ function roomforce(){
         
     circles.exit().remove();
 
-   
+  
+
+
+}})}
+
+
+
+//***********************************************************************************
+// necessary variables for the functions 
+//***********************************************************************************
 
     function handleMouseOver(d,i){
 
     d3.select(this)
-    .transition()
+    //.transition()
     .style("fill", "orchid")
     .attr("r", 7)
 
@@ -248,7 +223,7 @@ function roomforce(){
       .duration(50)
       .style("opacity", 1)
 
-    div.html(d["Species Name"] + d["room"] )
+    div.html(d["Species Name"] + " " + d["room"] )
       .attr("x", 800 )
       .attr("y", 500 )
   };
@@ -261,72 +236,166 @@ function roomforce(){
       
     div.transition()
      .duration('50')
-     .style("opacity", 0);
+     .style("opacity", 0); 
   };
 
-    function doubleclick(){
-      
+  function clickedMouseOut(){
       d3.select(this)
+        .transition()
+        .style("fill", "purple")
+        .attr("r", radius)
+        
+      div.transition()
+       .duration('50')
+       .style("opacity", 0);
+    }
+
+    function doubleclick(d){
+      if (d["medicinal"]=="TRUE" && medPress == true){
+            d3.select(this)
+              .attr("r", radius*2)
+              .style("fill", "purple")
+              .on("mouseout", medclickedMouseOut)
+          }
+      else{
+        d3.select(this)
+          .attr("r", radius)
           .style("fill", "purple")
+          .on("mouseout", clickedMouseOut)
+      }
+     
+          
+          
      }
     
-    function click(){
-
-      d3.select(this)
+    function click(d){
+      if (d["medicinal"]=="TRUE" && medPress == true){
+        d3.select(this)
+          .attr("r", radius*2)
+          .style("fill", buttons.value)
+          .on("mouseout", medUnclickedMouseOut)
+      }
+      else{
+        d3.select(this)
         .style("fill", buttons.value)
-      
+        .on("mouseout", handleMouseOut)
+    }}
+
+    function medMouseOver(d,i){
+      d3.select(this)
+      .transition()
+      .style("fill", "orchid")
+      .attr("r", radius * 2.3)
+
+      div.transition()
+        .duration(50)
+        .style("opacity", 1)
+
+      div.html(d["Species Name"] + " " + d["room"] )
+        .attr("x", 800 )
+        .attr("y", 500 )
     }
+
+  function medMoustOut(){
+    d3.select(this)
+      .transition()
+      .style("fill", buttons.value)
+      .attr("r", radius*2)
+      
+       div.transition()
+      .duration('50')
+      .style("opacity", 0);
+  }
+
+  function medclickedMouseOut(){
+    d3.select(this)
+        .transition()
+        .style("fill", "purple")
+        .attr("r", radius*2)
+        
+         div.transition()
+        .duration('50')
+        .style("opacity", 0);
+}
+
+  function medUnclickedMouseOut(){
+    d3.select(this)
+          .transition()
+          .style("fill", buttons.value)
+          .attr("r", radius*2)
+          
+           div.transition()
+          .duration('50')
+          .style("opacity", 0);
 }
 
 
-})}
+  function growMed(){
+    medPress = true;
 
-//***********************************************************************************
-// necessary variables for the functions 
-//***********************************************************************************
+    d3.selectAll("circle").each(function(d,i){
+      if(d["medicinal"]== "TRUE"){
+        d3.select(this)
+          .attr("r", radius*2)
+          .on("mouseover", medMouseOver)
+          .on("mouseout", medMoustOut)
+      }
+
+    })
+
+  }
+
+  function noMed(){
+    medPress = false;
+    d3.selectAll("circle")
+      .attr("r", radius)
+      .on("mouseover", handleMouseOver)
+      .on("mouseout", handleMouseOut)
+  }
+
+  var div = d3.select("body").append("div")
+         .attr("id", "tool")
+         .attr("class", "tooltip")
+         .style("opacity", 0);
 
 
-var div = d3.select("body").append("div")
-       .attr("id", "tool")
-       .attr("class", "tooltip")
-       .style("opacity", 0);
+  function roomX(d) {  
+        if(d["room"]== "511") {
+          return (w/12)*3;
+        } else if (d["room"]== "512") {
+          return (w/12)*5;
+        } else if (d["room"] == "513") {
+          return (w/12)*7;
+        } else if (d["room"]== "514") {
+          return (w/12)*9;
+        } else if (d["room"]== "515") {
+          return (w/12)* 11;
+         }  
+          else if(d["room"] == "hallway"||"Hallway") {return w/12}
+  };
 
-
-function roomX(d) {  
-      if(d["room"]== "511") {
-        return (w/12)*3;
-      } else if (d["room"]== "512") {
-        return (w/12)*5;
+  function fillrooms(d,i) {
+    
+      if(d["room"] == "511") {
+        return "deeppink"
+      } else if (d["room"]=="512") {
+        return "lightgreen"
       } else if (d["room"] == "513") {
-        return (w/12)*7;
-      } else if (d["room"]== "514") {
-        return (w/12)*9;
-      } else if (d["room"]== "515") {
-        return (w/12)* 11;
-       }  
-        else if(d["room"] == "hallway"||"Hallway") {return w/12}
-};
+          return "lightsalmon"
+        } else if (d["room"] == "514") {
+          return "green"
+        } else if  (d["room"] =='hallway'){
+          return "blue"
+        } else if (d["room"] == '515'){
+          return "teal"
+        }
+        else {
+          return "brown"
+        }
+      } ; 
 
-function fillrooms(d,i) {
-  
-    if(d["room"] == "511") {
-      return "deeppink"
-    } else if (d["room"]=="512") {
-      return "lightgreen"
-    } else if (d["room"] == "513") {
-        return "lightsalmon"
-      } else if (d["room"] == "514") {
-        return "green"
-      } else if  (d["room"] =='hallway'){
-        return "blue"
-      } else if (d["room"] == '515'){
-        return "teal"
-      }
-      else {
-        return "brown"
-      }
-    } ;     
-start();
+
+  start();
 
                                                       
 </script>
