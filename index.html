@@ -1,405 +1,246 @@
-<html><head>
-<meta charset="utf-8"><!-- 
-<link href=style.css rel='stylesheet' type='text/css' />
- -->
-<style>
-	h1{
-		font-family: sans-serif;
-    text-align: center;
-	}
-	div.button{
-		font-family: sans-serif;
-	}
-	div.tooltip {
-     position: relative 500px;
-     text-align: center;
-     padding: .5rem;
-     background: #FFFFFF;
-     color: #313639;
-     /*border: 1px solid #313639;*/
-     border-radius: 8px;
-     pointer-events: none;
-     font-size: 1.3rem;
-  }
-  #option{
-    text-align: center;
-  }
+<!DOCTYPE html>
+<html lang="en">
 
-  input{
-    margin: 10;
-  }
+<head>
 
-  svg{
-    margin: 25
-  }
-  .nodes circle {
-  pointer-events: all;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-</style>
+  <title>BC Greenhouse - Welcome </title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="css/landing-page.min.css" rel="stylesheet">
+
 </head>
-<body marginwidth="0" marginheight="0">
-	<h1> Arthur Ross Greenhouse Collection by Room</h1>
-<div id="option" text-align: center >
- 	 <input type="radio" name="color" value="lightblue" checked>light blue
- 	 <input type="radio" name="color" value="lightgreen">  light green
-	</form>
-		<input type="button" name="ByRoom" value="room" onclick="roomforce()">
-    <input type="button" name="Medicinal" value="medicinal" onclick="growMed()">
-    <input type="button" name="noMed" value="All plants" onclick="noMed()">
-    <input type="button" name="randomlayout" value="random" onclick="start()">
 
-	</form>
-</div>
-<br>
+<body>
 
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script>
-//variables that need to be used by all the functions 
-var   w = window.innerWidth,
-      h = window.innerHeight/4+50,
-      margin = { top: 40, right: 20, bottom: 20, left: 40 },
-      radius = 5;    
+  <!-- Navigation -->
+  <!-- <nav class="navbar navbar-light bg-light static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">BC Greenhouse</a>
+      <a class="btn"  href="#">Sign In</a>
+    </div>
+  </nav> -->
 
- var svgContainer = d3.select("body").append("svg")
-      .attr("width", w)
-      .attr("height", h)
+  <!-- Masthead -->
+  <header class="masthead text-white text-center">
+    <!-- <div class="overlay" style="background-image: url('img/greenhouse1944.jpg')"></div> -->
+    <div class="container">
 
- var buttons = d3.selectAll('input');
-  
- var medPress = false;
-//********************************************************************************
-//random layout applied when page loads and when u hit the reset button
-//********************************************************************************
-function start(){
-  d3.csv("plant_list1.csv").then(function(data){
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5">BC Greenhouse</h1>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <!-- <div class="form-row">
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
+              </div>
+              <div class="col-12 col-md-3">
+                <button type="submit" class="btn btn-block btn-lg btn-primary">Sign up!</button>
+              </div>
+            </div>
+          </form> -->
+        </div>
+      </div>
+    </div>
+  </header>
 
-    d3.selectAll("text")
-          .remove();
+  <!-- Icons Grid -->
+  <section class="features-icons bg-light text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4" >
+          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <a href="ghViZ/index.html">
+            <div class="features-icons-icon d-flex" style="color: #b8d09c;">
+              <i class="icon-globe m-auto "></i>
+            </div></a>
+            <h3> Explore our the collection </h3>
+            <p class="lead mb-0">A fun data visualization of the Greehouse Collection</p>
+          </div>
+        </div>
+       
+        <div class="col-lg-4">
+          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <a href="collection/csv-to-html-table-master/index.html"  style="color: #b8d09c;">
+            <div class="features-icons-icon d-flex" style="color: #b8d09c;">
+               
+                <i class="icon-list m-auto "></i>
+              
 
-    d3.selectAll("circle")
-          .enter()
-          .remove();
+            </div></a>
+            <h3>Search Our Collection</h3>
+            <p class="lead mb-0">Search our database to find a specific plant or browse before you visit</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+            <div class="features-icons-icon d-flex" style="color: #b8d09c;">
+              <i class="icon-picture m-auto "></i>
+            </div>
+            <h3>Art at BC Greenhouse</h3>
+            <p class="lead mb-0">Gallery of student work created in and inspired by the BC greenhouse</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-     buttons.on('change', function(d){
-        var circles = svgContainer.selectAll("circle").data(data)
-        .attr("fill", this.value)
-      })
+  <!-- Image Showcases -->
+  <section class="showcase">
+    <div class="container-fluid p-0">
+      <div class="row no-gutters">
 
-    var simulation = d3.forceSimulation(data)
-      .force('center', d3.forceCenter(w/2, h/2))
-      .on('tick', ticked);
-      
+        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/fern.jpg');"></div>
+        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+          <h2>Greenhouse History</h2>
+          <p class="lead mb-0">The Arthur Ross Greenhouse, dedicated on October 8, 1998, is a state-of-the-art plant growth facility built on the roof of Milbank Hall for Barnard's Department of Biological Sciences. It replaces and occupies the site of a greenhouse built in 1928 for Edmund W. Sinnott who taught at Barnard from 1928 to 1940 and went on to become the Sterling Professor of Botany at Yale. He performed his classic studies on the developmental genetics of squash in the Barnard greenhouse. Although the greenhouse was actively used for research and teaching by both faculty and students, as time went by, its antiquated heating, plumbing and ventilation systems and deteriorating equipment and structure greatly limited its utility.</p>
+        </div>
+      </div>
+      <div class="row no-gutters">
+        <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/greenhouse_color.png');"></div>
+        <div class="col-lg-6 my-auto showcase-text">
+          <h2>Our Facility </h2>
+          <p class="lead mb-0">The new facility has a custom-designed aluminum and glass shell and fully computerized heating, cooling, ventilation, lighting and watering systems to provide independent, automatic climate control. Space was reconfigured to provide a central corridor so each room can be entered independently, a more accessible staircase and, for the first time, a small passenger elevator to provide access for the disabled and to facilitate transport of plants and supplies. Both staircase and elevator open directly into the greenhouse complex.</p>
+        </div>
+      </div>
+      <div class="row no-gutters">
+        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/smell_flowers.jpg');"></div>
+        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+          <h2>Specialized for Academic Growth and Research</h2>
+          <p class="lead mb-0">There is a central "peaked" room that acts as a general public space and conservatory, housing the teaching collection. The conservatory is flanked by two pairs of research bays that provide dedicated space for specialized research. Opposite the growing spaces are an office for the greenhouse coordinator, and a potting shed. The complex occupies about 3400 square feet with more than 2100 square feet under glass.</p>
+        </div>
+      </div>
+    </div>
+  </section> 
 
-      function ticked(){
+  <!-- Testimonials -->
+<!--   <section class="testimonials text-center bg-light">
+ -->    <!-- <div class="container">
+      <h2 class="mb-5">What people are saying...</h2>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="img/testimonials-1.jpg" alt="">
+            <h5>Margaret E.</h5>
+            <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="img/testimonials-2.jpg" alt="">
+            <h5>Fred S.</h5>
+            <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+            <img class="img-fluid rounded-circle mb-3" src="img/testimonials-3.jpg" alt="">
+            <h5>Sarah W.</h5>
+            <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+<!--   </section>
+ --><section class="">
+  <div class="container">
+  </div></section>
 
-       var circles = d3.select('svg')
-        .selectAll("circle")
-        .data(data);
+  <!-- Call to Action -->
+ <!--  <section class="call-to-action text-white text-center">
+    div class="overlay"></div>
+    <div class="container">
+      <div class="row"> -->
+        <!-- <div class="col-xl-9 mx-auto">
+          <h2 class="mb-4">Join our mailing list</h2>
+        </div> -->
+        <!-- <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-row" style="color: #b8d09c;">
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
+              </div>
+              <div class="col-12 col-md-3" style="color: #b8d09c;">
+                <button type="submit" class="btn btn-block btn-lg btn-primary" style="color: #b8d09c;" >Sign up!</button>
+              </div>
+            </div>
+          </form>
+        </div> -->
+    <!--   </div>
+    </div>
+  </section> -->
 
-       circles.enter()
-        .append("circle")
-        .attr("r", radius)
-        .attr("fill", "lightblue") //go back and make a color scale here 
-        .on("mouseover", handleMouseOver)
-        .on("mouseout", handleMouseOut)
-        .on("dblclick", doubleclick)
-        .on("click", click)
-        .merge(circles)
-        .transition()
-        .duration(70)
-        .attr("cx", function(d){return d.x})
-        .attr("cy", function(d){return d.y})
-        
+<!-- spacer row -->
+  <section>
+    <div class="row">
+      <p> </p>
+    </div>
 
-        
-     circles.exit().remove();
+  <!-- Footer -->
+  <footer class="footer bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+          <ul class="list-inline mb-2" style="color: #b8d09c;">
+            <li class="list-inline-item">
+              <a href="#" style="color: #b8d09c;">About</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#" style="color: #b8d09c;">Contact</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#" style="color: #b8d09c;">Terms of Use</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#" style="color: #b8d09c;">Privacy Policy</a>
+            </li>
+          </ul>
+          <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2019. All Rights Reserved.</p>
+        </div>
+        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+          <ul class="list-inline mb-0" style="color: #b8d09c;">
+            <li class="list-inline-item mr-3">
+              <a href="#" style="color: #b8d09c;">
+                <i class="fab fa-facebook fa-2x fa-fw"></i>
+              </a>
+            </li>
+            <li class="list-inline-item mr-3">
+              <a href="#" style="color: #b8d09c;">
+                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#" style="color: #b8d09c;">
+                <i class="fab fa-instagram fa-2x fa-fw" ></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    }
-
-    function handleMouseOver(d,i){
-
-      d3.select(this)
-      .transition()
-      .style("fill", "orchid")
-      .attr("r", 7)
-
-      div.transition()
-        .duration(50)
-        .style("opacity", 1)
-
-      div.html(d["Species Name"] + " "+ d["room"] )
-        .attr("x", 800 )
-        .attr("y", 500 )
-    };
-
-  })
-
-}
-//***********************************************************************************
-// function called when Room button is pressed, applies force layout and room lables
-//***********************************************************************************
-
-function roomforce(){
-  d3.csv("plant_list1.csv").then(function(data){
- 
-    //var buttons = d3.selectAll('input');
-      buttons.on('change', function(d){
-        var circles = svgContainer.selectAll("circle").data(data)
-        .attr("fill", this.value)
-    })
-
-
-    var labelText = ["Hallway", "511", "512", "513", "514", "515"]
-
-
-    var lables1 = svgContainer.selectAll("text")
-        .data(labelText)
-        .enter()
-        .append("text")
-        .attr("x", function(d,i){
-          return (w/12)*((i*2)+1)
-        })
-        .attr("y", 175)
-        .text(function(d){return d})
-        .attr("font-family", "sans-serif")
-        .attr("font-size", "15px")
-        .attr("id", "roomNum")
-  
-
-  var simulation = d3.forceSimulation(data)
-      .force('charge', d3.forceManyBody().strength(7))
-      .force('xAxis', d3.forceX(function(d){
-        return roomX(d)
-      }))
-      .force('yAxis', d3.forceY(h/3))
-      .force('collision', d3.forceCollide().radius(radius+3).iterations([5]))
-     // .force('center', d3.forceCenter(w/2, h/2))
-      .on('tick', ticked)
-      
-
-      function ticked(){
-
-    var circles = d3.select('svg')
-      .selectAll("circle")
-      .data(data);
-
-    circles.enter()
-      .append("circle")
-      .attr("r", radius)
-      .attr("fill", "lightblue") //go back and make a color scale here 
-      .on("mouseover", handleMouseOver)
-      .on("mouseout", handleMouseOut)
-      .on("dblclick", doubleclick)
-      .on("click", click)
-      .merge(circles)
-      .transition()
-      .duration(80)
-      .attr("cx", function(d){return Math.abs(d.x)})
-      .attr("cy", function(d){return Math.abs(d.y)})
-      
-        
-    circles.exit().remove();
-
-  
-
-
-}})}
-
-
-
-//***********************************************************************************
-// necessary variables for the functions 
-//***********************************************************************************
-
-    function handleMouseOver(d,i){
-
-    d3.select(this)
-    //.transition()
-    .style("fill", "orchid")
-    .attr("r", 7)
-
-    div.transition()
-      .duration(50)
-      .style("opacity", 1)
-
-    div.html(d["Species Name"] + " " + d["room"] )
-      .attr("x", 800 )
-      .attr("y", 500 )
-  };
-
-  function handleMouseOut(d,i){
-    d3.select(this)
-      .transition()
-      .style("fill", buttons.value)
-      .attr("r", radius)
-      
-    div.transition()
-     .duration('50')
-     .style("opacity", 0); 
-  };
-
-  function clickedMouseOut(){
-      d3.select(this)
-        .transition()
-        .style("fill", "purple")
-        .attr("r", radius)
-        
-      div.transition()
-       .duration('50')
-       .style("opacity", 0);
-    }
-
-    function doubleclick(d){
-      if (d["medicinal"]=="TRUE" && medPress == true){
-            d3.select(this)
-              .attr("r", radius*2)
-              .style("fill", "purple")
-              .on("mouseout", medclickedMouseOut)
-          }
-      else{
-        d3.select(this)
-          .attr("r", radius)
-          .style("fill", "purple")
-          .on("mouseout", clickedMouseOut)
-      }
-     
-          
-          
-     }
-    
-    function click(d){
-      if (d["medicinal"]=="TRUE" && medPress == true){
-        d3.select(this)
-          .attr("r", radius*2)
-          .style("fill", buttons.value)
-          .on("mouseout", medUnclickedMouseOut)
-      }
-      else{
-        d3.select(this)
-        .style("fill", buttons.value)
-        .on("mouseout", handleMouseOut)
-    }}
-
-    function medMouseOver(d,i){
-      d3.select(this)
-      .transition()
-      .style("fill", "orchid")
-      .attr("r", radius * 2.3)
-
-      div.transition()
-        .duration(50)
-        .style("opacity", 1)
-
-      div.html(d["Species Name"] + " " + d["room"] )
-        .attr("x", 800 )
-        .attr("y", 500 )
-    }
-
-  function medMoustOut(){
-    d3.select(this)
-      .transition()
-      .style("fill", buttons.value)
-      .attr("r", radius*2)
-      
-       div.transition()
-      .duration('50')
-      .style("opacity", 0);
-  }
-
-  function medclickedMouseOut(){
-    d3.select(this)
-        .transition()
-        .style("fill", "purple")
-        .attr("r", radius*2)
-        
-         div.transition()
-        .duration('50')
-        .style("opacity", 0);
-}
-
-  function medUnclickedMouseOut(){
-    d3.select(this)
-          .transition()
-          .style("fill", buttons.value)
-          .attr("r", radius*2)
-          
-           div.transition()
-          .duration('50')
-          .style("opacity", 0);
-}
-
-
-  function growMed(){
-    medPress = true;
-
-    d3.selectAll("circle").each(function(d,i){
-      if(d["medicinal"]== "TRUE"){
-        d3.select(this)
-          .attr("r", radius*2)
-          .on("mouseover", medMouseOver)
-          .on("mouseout", medMoustOut)
-      }
-
-    })
-
-  }
-
-  function noMed(){
-    medPress = false;
-    d3.selectAll("circle")
-      .attr("r", radius)
-      .on("mouseover", handleMouseOver)
-      .on("mouseout", handleMouseOut)
-  }
-
-  var div = d3.select("body").append("div")
-         .attr("id", "tool")
-         .attr("class", "tooltip")
-         .style("opacity", 0);
-
-
-  function roomX(d) {  
-        if(d["room"]== "511") {
-          return (w/12)*3;
-        } else if (d["room"]== "512") {
-          return (w/12)*5;
-        } else if (d["room"] == "513") {
-          return (w/12)*7;
-        } else if (d["room"]== "514") {
-          return (w/12)*9;
-        } else if (d["room"]== "515") {
-          return (w/12)* 11;
-         }  
-          else if(d["room"] == "hallway"||"Hallway") {return w/12}
-  };
-
-  function fillrooms(d,i) {
-    
-      if(d["room"] == "511") {
-        return "deeppink"
-      } else if (d["room"]=="512") {
-        return "lightgreen"
-      } else if (d["room"] == "513") {
-          return "lightsalmon"
-        } else if (d["room"] == "514") {
-          return "green"
-        } else if  (d["room"] =='hallway'){
-          return "blue"
-        } else if (d["room"] == '515'){
-          return "teal"
-        }
-        else {
-          return "brown"
-        }
-      } ; 
-
-
-  start();
-
-                                                      
-</script>
-</div>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
