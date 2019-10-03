@@ -70,6 +70,8 @@ var   w = window.innerWidth,
  var buttons = d3.selectAll('input');
   
  var medPress = false;
+
+
 //********************************************************************************
 //random layout applied when page loads and when u hit the reset button
 //********************************************************************************
@@ -272,6 +274,8 @@ function geo(){
 // necessary variables for the functions 
 //***********************************************************************************
 
+
+
   function handleMouseOver(d,i){
 
     d3.select(this)
@@ -469,8 +473,8 @@ function geo(){
 
   function geoLayoutY(d){
   	if(d.continent_Code == "NA" || d.continent_Code == "EU" || d.continent_Code == "AS"){
-  		return(h/5)-20;
-  	}else if (d.continent_Code == "SA" || d.continent_Code == "AF" || d.continent_Code == "OC"){return (h -70)}
+  		return(h/5);
+  	}else if (d.continent_Code == "SA" || d.continent_Code == "AF" || d.continent_Code == "OC"){return (h -80)}
   	else{return -1000}
   }
 
@@ -490,7 +494,7 @@ function geo(){
   function geoLablesY(d,i){
 	if( i < 3){
 	  		return 15
-	  	}else{return 125}
+	  	}else{return 150}
 	  }
 
 
