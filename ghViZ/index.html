@@ -30,7 +30,7 @@
   }
 
   svg{
-    margin: 25
+    margin: 14
   }
   .nodes circle {
   pointer-events: all;
@@ -39,25 +39,27 @@
 </style>
 </head>
 <body marginwidth="0" marginheight="0">
-	<h1> Arthur Ross Greenhouse Collection by Room</h1>
+	<h1> Arthur Ross Greenhouse Collection </h1>
 <div id="option" text-align: center >
  	 <input type="radio" name="color" value="lightblue" checked>light blue
  	 <input type="radio" name="color" value="lightgreen">  light green
-	</form>
-		<input type="button" name="ByRoom" value="room" onclick="roomforce()">
-    <input type="button" name="Medicinal" value="medicinal" onclick="growMed()">
-    <input type="button" name="noMed" value="All plants" onclick="noMed()">
-    <input type="button" name="randomlayout" value="random" onclick="start()">
+	<br>
+	<input type="button" name="ByRoom" value="group by room" onclick="roomforce()">
+	<input type="button" name="geolayout" value="group by continent" onclick="geo()">
+	<input type="button" name="randomlayout" value="randomly group" onclick="start()">
+    <input type="button" name="Medicinal" value="show medicinal" onclick="growMed()">
+    <input type="button" name="noMed" value="undo medicinal" onclick="noMed()">
+    
 
-	</form>
-</div>
+	</div>
 <br>
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
+
 //variables that need to be used by all the functions 
 var   w = window.innerWidth,
-      h = window.innerHeight/4+50,
+      h = window.innerHeight/4+70,
       margin = { top: 40, right: 20, bottom: 20, left: 40 },
       radius = 5;    
 
@@ -101,6 +103,7 @@ function start(){
         .append("circle")
         .attr("r", radius)
         .attr("fill", "lightblue") //go back and make a color scale here 
+        .attr("class", "not_clicked")
         .on("mouseover", handleMouseOver)
         .on("mouseout", handleMouseOut)
         .on("dblclick", doubleclick)
@@ -117,21 +120,6 @@ function start(){
 
     }
 
-    function handleMouseOver(d,i){
-
-      d3.select(this)
-      .transition()
-      .style("fill", "orchid")
-      .attr("r", 7)
-
-      div.transition()
-        .duration(50)
-        .style("opacity", 1)
-
-      div.html(d["Species Name"] + " "+ d["room"] )
-        .attr("x", 800 )
-        .attr("y", 500 )
-    };
 
   })
 
@@ -149,6 +137,8 @@ function roomforce(){
         .attr("fill", this.value)
     })
 
+     d3.selectAll("text")
+          .remove();
 
     var labelText = ["Hallway", "511", "512", "513", "514", "515"]
 
@@ -188,6 +178,78 @@ function roomforce(){
       .append("circle")
       .attr("r", radius)
       .attr("fill", "lightblue") //go back and make a color scale here 
+      .attr("class", "not_clicked")
+      .on("mouseover", handleMouseOver)
+      .on("mouseout", handleMouseOut)
+      .on("dblclick", doubleclick)
+      .on("click", click)
+      .merge(circles)
+      .transition()
+      .duration(80)
+      .attr("cx", function(d){return Math.abs(d.x)})
+      .attr("cy", function(d){return Math.abs(d.y)})
+      
+        
+    circles.exit().remove();
+
+  
+
+
+}})}
+//***************************************************************************************
+// function called when continent button is pressed, applies geography layout and lables
+//***************************************************************************************
+function geo(){
+
+  d3.csv("plant_list1.csv").then(function(data){
+ 
+      buttons.on('change', function(d){
+        var circles = svgContainer.selectAll("circle").data(data)
+        .attr("fill", this.value)
+    })
+
+    d3.selectAll("text")
+          .remove();
+
+    var labelText = ["North America","Europe", "Asia", "South America", "Africa", "Oceania"]
+
+
+    var lables1 = svgContainer.selectAll("text")
+        .data(labelText)
+        .enter()
+        .append("text")
+        .attr("x", function(d,i){return geoLablesX(d, i)})
+        .attr("y", function(d,i){return geoLablesY(d, i)})
+        .text(function(d){return d})
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "15px")
+        .attr("id", "roomNum")
+  
+
+  var simulation = d3.forceSimulation(data)
+      .force('charge', d3.forceManyBody().strength(7))
+      .force('xAxis', d3.forceX(function(d){
+        return geoLayoutX(d)
+      }))
+      .force('yAxis', d3.forceY(function(d){
+      	return geoLayoutY(d)
+      }))
+      .force('collision', d3.forceCollide().radius(radius+3).iterations([5]))
+     // .force('center', d3.forceCenter(w/2, h/2))
+      .on('tick', ticked)
+      
+
+      function ticked(){
+
+    var circles = d3.select('svg')
+      .selectAll("circle")
+      .data(data);
+
+    circles.enter()
+      .append("circle")
+      .attr("r", radius)
+      .attr("fill", "lightblue") //go back and make a color scale here 
+      .attr("class", "not_clicked")
       .on("mouseover", handleMouseOver)
       .on("mouseout", handleMouseOut)
       .on("dblclick", doubleclick)
@@ -206,13 +268,11 @@ function roomforce(){
 
 }})}
 
-
-
 //***********************************************************************************
 // necessary variables for the functions 
 //***********************************************************************************
 
-    function handleMouseOver(d,i){
+  function handleMouseOver(d,i){
 
     d3.select(this)
     .transition()
@@ -223,7 +283,7 @@ function roomforce(){
       .duration(50)
       .style("opacity", 1)
 
-    div.html(d["Species Name"] + " " + d["room"] )
+    div.html(d["Species Name"]  )
       .attr("x", 800 )
       .attr("y", 500 )
   };
@@ -250,38 +310,40 @@ function roomforce(){
        .style("opacity", 0);
     }
 
-    function doubleclick(d){
+   function doubleclick(d){
       if (d["medicinal"]=="TRUE" && medPress == true){
             d3.select(this)
               .attr("r", radius*2)
               .style("fill", "purple")
               .on("mouseout", medclickedMouseOut)
+              .attr("class", "clicked")
           }
-      else{
-        d3.select(this)
-          .attr("r", radius)
-          .style("fill", "purple")
-          .on("mouseout", clickedMouseOut)
-      }
-     
-          
-          
+       else {
+       		d3.select(this)
+              .attr("r", radius)
+              .style("fill", "purple")
+              .on("mouseout", clickedMouseOut)
+              .attr("class", "clicked")
+       }
+                
      }
     
-    function click(d){
+   function click(d){
       if (d["medicinal"]=="TRUE" && medPress == true){
         d3.select(this)
           .attr("r", radius*2)
+          .attr("class", "not_clicked")
           .style("fill", buttons.value)
           .on("mouseout", medUnclickedMouseOut)
       }
       else{
         d3.select(this)
+        .attr("clicked", "no")
         .style("fill", buttons.value)
         .on("mouseout", handleMouseOut)
     }}
 
-    function medMouseOver(d,i){
+   function medMouseOver(d,i){
       d3.select(this)
       .transition()
       .style("fill", "orchid")
@@ -291,7 +353,7 @@ function roomforce(){
         .duration(50)
         .style("opacity", 1)
 
-      div.html(d["Species Name"] + " " + d["room"] )
+      div.html(d["Species Name"]  )
         .attr("x", 800 )
         .attr("y", 500 )
     }
@@ -333,25 +395,46 @@ function roomforce(){
   function growMed(){
     medPress = true;
 
-    d3.selectAll("circle").each(function(d,i){
-      if(d["medicinal"]== "TRUE"){
-        d3.select(this)
-          .attr("r", radius*2)
-          .on("mouseover", medMouseOver)
-          .on("mouseout", medMoustOut)
-      }
+    d3.selectAll(".clicked").each(function(d,i){
+		if(d.medicinal == "TRUE") {
+			d3.select(this)
+	          .attr("r", radius*2)
+	          .on("mouseover",medMouseOver)
+	          .on("mouseout", medclickedMouseOut)
+		}
+	  })
 
-    })
+	d3.selectAll(".not_clicked").each(function(d,i){
+		if(d.medicinal == "TRUE") {
+			d3.select(this)
+	          .attr("r", radius*2)
+	          .on("mouseover",medMouseOver)
+	          .on("mouseout", medMoustOut)
+		}
+	  })
 
-  }
+    }
+
+  
 
   function noMed(){
     medPress = false;
-    d3.selectAll("circle")
-      .attr("r", radius)
-      .on("mouseover", handleMouseOver)
-      .on("mouseout", handleMouseOut)
-  }
+
+    d3.selectAll(".clicked").each(function(d,i){
+    	d3.select(this)
+	   	  .attr("r", radius)
+	      .on("mouseover", handleMouseOver)
+	      .on("mouseout", clickedMouseOut)
+    })
+
+    d3.selectAll(".not_clicked").each(function(d,i){
+    	d3.select(this)
+	      .attr("r", radius)
+	      .on("mouseover", handleMouseOver)
+	      .on("mouseout", handleMouseOut)
+  	})
+    }
+
 
   var div = d3.select("body").append("div")
          .attr("id", "tool")
@@ -359,7 +442,7 @@ function roomforce(){
          .style("opacity", 0);
 
 
-  function roomX(d) {  
+  function roomX(d) {  //this is actually used 
         if(d["room"]== "511") {
           return (w/12)*3;
         } else if (d["room"]== "512") {
@@ -373,8 +456,47 @@ function roomforce(){
          }  
           else if(d["room"] == "hallway"||"Hallway") {return w/12}
   };
+	
+  function geoLayoutX(d){
+ 	if (d.continent_Code == "NA" || d.continent_Code == "SA" ){
+ 		return (w/6);
+ 	}else if (d.continent_Code == "EU" || d.continent_Code == "AF"){
+ 		return (w/6)*3;
+ 	}else if (d.continent_Code == "AS" || d.continent_Code == "OC"){
+ 		return (w/6)*5;
+ 	}else{return -1000}
+  }
 
-  function fillrooms(d,i) {
+  function geoLayoutY(d){
+  	if(d.continent_Code == "NA" || d.continent_Code == "EU" || d.continent_Code == "AS"){
+  		return(h/5)-20;
+  	}else if (d.continent_Code == "SA" || d.continent_Code == "AF" || d.continent_Code == "OC"){return (h -70)}
+  	else{return -1000}
+  }
+
+  function geoLablesX(d,i){
+  	if(i == 0 || i == 3){
+  		return w/6;
+  	}else if(i == 1 || i == 4){
+  		return (w/6)*3;
+  	}else if (i == 2 || i == 5){
+  		return (w/6)*5
+  	}
+
+
+
+  }
+
+  function geoLablesY(d,i){
+	if( i < 3){
+	  		return 15
+	  	}else{return 125}
+	  }
+
+
+ 
+
+  function fillrooms(d,i) { //this isn't used right now
     
       if(d["room"] == "511") {
         return "deeppink"
