@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; background: lightgrey}
+    svg { width:100%; height: 100% }
+    path { fill: white; stroke: lightgrey; }
+    .tooltip{
+            position: absolute;
+            text-align: justify;
+            height: 40px;
+            padding: 4px;
+            font: 15px sans-serif;
+            background: none;
+            opacity: 0.9;
+            pointer-events: none;
+            font-stretch: none;
+            width: 100px;
+            heigh: 70;
+            overflow: visible;
+
+
+        }
+      .text{ color: black;
+        position: relative;
+        white-space: normal;
+        /*overflow: visible;*/
+        background: grey;
+        white-space: pre;
+        }
+
+      
+  </style>
+</head>
+
+<body>
+  <script> 
+    d3.json("geoJson_plants.geojson", function(err, geojson) {
+    var width = 900;
+    var height = 500;
+    
+    var svg = d3.select("body").append("svg");
+    var tooltip = d3.select("body").append("svg")
+        .attr("class", "tooltip")
+        .style("display", "none")
+        
+    tooltip.append("text").text("test")
+        
+
+    var g = svg.append("g") 
+    var projection = d3.geoMercator();
+    
+    var path = d3.geoPath().projection(projection);
+
+  
+    var color = d3.scaleSequential(d3.interpolateBlues)
+          .domain([0, 7]);
+          
+
+
+      g.selectAll(".region")
+      .data(geojson.features)
+      .enter()
+      .append("path")
+      .attr("class","region")
+      .attr("d", path)
+      .style("fill", function (d,i){
+         var value = d.properties.count;
+      console.log(value)
+      if (value != '0')
+        return color(value)
+      else
+        return "white";
+      })
+      .on("mouseover", handleMouseOver)
+      .on("mouseout", handleMouseOut)
+      .on("mousemove", handleMouseMove)
+
+  
+
+    function handleMouseOver(d,i){
+      tooltip.style("display", "block");
+      d3.select(this).style('fill', "violet");
+      console.log(d.properties)
+
+    }
+    function handleMouseOut(d,i){
+      tooltip.style("display", "none")
+      d3.select(this).style("fill", function (d,i){
+      var value = d.properties.count;
+      if (value != '0')
+        return color(value)
+      else
+        return "white";
+      });
+    }
+    function handleMouseMove(d,i) {
+        var left = d3.event.pageX - 50
+        var tooltipText = d.properties.plant_names.replace(",", "\n")
+        tooltip.style("left", d3.event.pageX)
+            .style("top", d3.event.pageY);
+
+           d3.select("text").text(
+            // d.properties.Level_4_Na + " - " + 
+            // d.properties.plant_names + ' - ' + 
+            tooltipText)
+            .append("html")
+            .attr("data-html", "true")
+            .attr("x", d3.event.pageX+50)
+            .attr("y", d3.event.pageY  +50 );
+            
+    }
+     })
+  </script>
+</body>
