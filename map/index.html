@@ -36,6 +36,7 @@
 </head>
 
 <body>
+  <div>
   <script> 
     d3.json("geoJson_plants.geojson", function(err, geojson) {
     var width = 900;
@@ -114,4 +115,13 @@
     }
      })
   </script>
+</div>
+<div> 
+  <p>
+    Even though it only represents a very small number of plants this map feels like a huge victory. From the first moment, the geographic data that the greenhouse had varied from "Arizona" to "Africa." I looked at a lot of options for cleaning up and filling in the data but ultimely we decided that the best thing to do would be to fill in the data by hand. That way we could keep track of the source, varify the accuracy and control the level of detail. <br>  
+  </p>
+  <p>
+    With a small section of data that I filled in by hand, I was then confronted with the question of how to represent wide distributions of plants that overlap. I used python to create a geojson that added each plant with a geography code to the attributes of the geography and to add a count of the number of plants in each geography. The count is what is being visualized on the map and the plant names are in the tooltip.  
+  </p>
+  </div>
 </body>
