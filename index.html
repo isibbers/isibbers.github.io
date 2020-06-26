@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>BC Greenhouse - Welcome </title>
+  <title>Greenhouse Project - Welcome </title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,13 +34,15 @@
   </nav> -->
 
   <!-- Masthead -->
-  <header class="masthead text-white text-center">
-    <!-- <div class="overlay" style="background-image: url('img/greenhouse1944.jpg')"></div> -->
-    <div class="container">
+  <header >
+<!--     <div class="overlay" style="background-image: url('img/greenhouse1944.jpg')"></div>
+ -->    <div class="container">
 
       <div class="row">
         <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5">BC Greenhouse</h1>
+          <h1 style="color: #b8d09c;">Greenhouse Project</h1>
+          <h4 style="color: #b8d09c;"> Izzi Sibbers - ERC Post Bacc</h4>
+          <p> This site is to showcase the various imagined aspects of a potential new website for the BC Greenhouse. While still only working with a subset of data and not complete, I hope the work shown here can be used for the final site in some capacity. They also represent an incredble amount of techincal skills learned over the past year. I did not know anything about d3, python, bootstrap, github, react, SQL, R and alot of other elemets of this work a year ago. </p>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form>
@@ -59,47 +61,41 @@
   </header>
 
   <!-- Icons Grid -->
-  <section class="features-icons bg-light text-center">
+  <section background='white'>
     <div class="container">
       <div class="row">
         <div class="col-lg-4" >
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <a href="ghViZ/index.html">
-            <div class="features-icons-icon d-flex" style="color: #b8d09c;">
-              <i class="icon-globe m-auto "></i>
-            </div></a>
-            <h3> Explore our the collection </h3>
-            <p class="lead mb-0">A fun data visualization of the Greehouse Collection</p>
+          <div class="features-icons-item  ">
+            <a href="ghViZ/index.html" style="color: #b8d09c;">
+           
+            <h4> Plants as Dots </h4> </a>
+            <p >My first data visualzation in D3! Represents each plant in the greenhouse as a dot that can be sorted with the idea of demonstrating relationships between plants that may not be visable viewing them from the greenhouse.</p>
           </div>
         </div>
-       
-        <div class="col-lg-4">
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <a href="collection/csv-to-html-table-master/index.html"  style="color: #b8d09c;">
-            <div class="features-icons-icon d-flex" style="color: #b8d09c;">
-               
-                <i class="icon-list m-auto "></i>
-              
-
-            </div></a>
-            <h3>Search Our Collection</h3>
-            <p class="lead mb-0">Search our database to find a specific plant or browse before you visit</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
+       <div class="col-lg-4">
           <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-            <a href="plant_shopping/index.html">
-            <div class="features-icons-icon d-flex" style="color: #b8d09c;">
-              <i class="icon-picture m-auto "></i>
-            </div></a>
-            <h3>Plant pages </h3>
-            <p class="lead mb-0">Explore the collection in detail</p>
+            <a href="plant_shopping/index.html" style="color: #b8d09c;">
+           
+            <h4>Plant pages </h4></a>
+            <p >When brainstorming how to structure info pages for each species we thought about the format of an online store to browse plants. I learned how to use React to attempt this but these plant pages were hard coded using a python script.  </p>
           </div>
         </div>
+        <div class="col-lg-4">
+          <div class="features-icons-item ">
+            <a href="collection/csv-to-html-table-master/index.html"  style="color: #b8d09c;">
+            
+            <h4>Collection Search</h4></a>
+            <p >I found this code to make the spreaadsheet version of the collection searchable. A next step is to link the entries here to the species page!</p>
+          </div>
+        </div>
+
+        
       </div>
     </div>
   </section>
-
+<div>
+  <p></p>
+</div>
   <!-- Image Showcases -->
   <section class="showcase">
     <div class="container-fluid p-0">
